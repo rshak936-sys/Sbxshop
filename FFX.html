@@ -1,3 +1,8 @@
+<?php
+session_start();
+$isLoggedIn = isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true;
+$userName = $isLoggedIn ? $_SESSION['user_name'] : '';
+?>
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -13,6 +18,7 @@
 <meta property="og:image" content="Main logo.jpg">
 <title>Nickname</title>
 <script>
+
 // =======================================================
 // INSTANT CONFIG LOADER & CACHE-BUSTER (Render Live Update)
 // =======================================================
@@ -71,7 +77,6 @@ function syncAccountLinks() {
   bindLinks('[data-link="telegram-group"]', validTgGrp);
   bindLinks('[data-link="youtube-channel"]', validYtCh);
 
-  // নোটিফিকেশন পপআপের লেখা (account.js এর notification_text)
   var note = (typeof notification_text !== 'undefined' ? notification_text : (window.notification_text || (window.ACCOUNT_CONFIG && window.ACCOUNT_CONFIG.notificationText) || '')).toString();
   note = note.replace(/\\n/g, '\n').trim();
   var popEl = document.getElementById('popText');
@@ -86,7 +91,6 @@ function syncAccountLinks() {
 
 window.syncAccountLinks = syncAccountLinks;
 
-// Dynamically inject account.js with unique cache-busting timestamp
 (function() {
   var buster = Date.now() + '_' + Math.floor(Math.random() * 1000000);
   var s = document.createElement('script');
@@ -113,14 +117,12 @@ svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.8;stroke
 svg.f{width:1em;height:1em;fill:currentColor;stroke:none}
 .wrap{max-width:1000px;margin:0 auto;padding:0 16px}
 
-/* placeholders: drop an <img> inside and it covers the shimmer */
 .ph{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#2563eb;text-align:center;background:linear-gradient(110deg,#e6eeff 30%,#f4f8ff 50%,#e6eeff 70%) 0 0/200% 100%;animation:sh 2.4s linear infinite}
 .thumb.ph{animation:none;background:#e8f0fe}
 .ph picture{position:absolute;inset:0;width:100%;height:100%;display:block}
 .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 @keyframes sh{to{background-position:-200% 0}}
 
-/* header */
 header{position:sticky;top:0;z-index:40;background:#ffffff;border-bottom:1px solid var(--bd);padding-top:env(safe-area-inset-top)}
 .hd{display:flex;align-items:center;justify-content:space-between;height:68px}
 .logo{display:inline-flex;align-items:center;height:44px;max-width:145px}
@@ -134,7 +136,6 @@ header{position:sticky;top:0;z-index:40;background:#ffffff;border-bottom:1px sol
 .avatar .av-inner{width:100%;height:100%;border-radius:50%;background:#eff6ff;display:flex;align-items:center;justify-content:center;color:#2563eb}
 .avatar .av-inner svg{width:21px;height:21px;stroke-width:2.2}
 
-/* hero */
 .hero{margin-top:18px;position:relative;border-radius:26px;overflow:hidden;border:1.5px solid #1e293b;box-shadow:0 4px 0 #1e293b,0 16px 36px -12px rgba(17,24,39,.28);user-select:none;-webkit-user-select:none;touch-action:pan-y;background:#050d24;cursor:grab;-webkit-transform:translateZ(0);transform:translateZ(0)}
 .hero:active{cursor:grabbing}
 .track{display:flex;width:100%;will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden;-webkit-transform:translateZ(0);transform:translateZ(0)}
@@ -144,7 +145,6 @@ header{position:sticky;top:0;z-index:40;background:#ffffff;border-bottom:1px sol
 .dots i{width:16px;height:5px;border-radius:6px;background:rgba(255,255,255,.45);cursor:pointer;pointer-events:auto;transition:all .4s cubic-bezier(.2,1,.3,1);box-shadow:0 1px 4px rgba(0,0,0,.45)}
 .dots i.on{width:36px;background:#fff;box-shadow:0 2px 10px rgba(37,99,235,.85),0 1px 4px rgba(0,0,0,.5)}
 
-/* quick links */
 .quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
 .q{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 8px;border-radius:16px;background:#fff;color:var(--tx);border:1px solid var(--bd);box-shadow:0 2px 8px rgba(20,40,90,.05);text-align:center;transition:.2s}
 .q:hover{border-color:#93c5fd;box-shadow:0 6px 16px -8px rgba(37,99,235,.5)}
@@ -153,14 +153,12 @@ header{position:sticky;top:0;z-index:40;background:#ffffff;border-bottom:1px sol
 .q small{display:none}
 .q b{font-size:12.5px;font-weight:600;white-space:nowrap}
 
-/* section */
 .sec{display:flex;align-items:center;gap:12px;margin:34px 0 16px}
 .sec:before{content:"";width:5px;height:28px;border-radius:5px;background:linear-gradient(var(--gold),var(--v))}
 .sec h2{font-size:21px;font-weight:800;letter-spacing:-.5px}
 .sec h2 em{font-style:normal;background:linear-gradient(90deg,#3b82f6,#2563eb);-webkit-background-clip:text;background-clip:text;color:transparent}
 .sec:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--bd),transparent)}
 
-/* cards */
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .card{position:relative;border-radius:20px;overflow:hidden;background:#fff;border:1.8px solid #111827;box-shadow:0 5px 0 #111827,0 10px 20px -3px rgba(17,24,39,.26);transition:.25s cubic-bezier(.2,1,.3,1);-webkit-transform:translateZ(0);transform:translateZ(0);backface-visibility:hidden;-webkit-backface-visibility:hidden;contain:layout paint}
 .card:before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(160deg,rgba(155,108,255,.9),transparent 55%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:.3s;pointer-events:none;z-index:2;will-change:opacity}
@@ -171,7 +169,6 @@ header{position:sticky;top:0;z-index:40;background:#ffffff;border-bottom:1px sol
 .card p{display:flex;align-items:center;justify-content:center;gap:6px;min-height:50px;padding:8px 6px;font-size:11.5px;font-weight:700;color:#111827;text-align:center;text-transform:uppercase;letter-spacing:.2px}
 .v-badge{width:18px;height:18px;display:inline-block;vertical-align:-3px;margin-left:4px;flex-shrink:0}
 
-/* download */
 .dl{margin-top:36px;padding:26px 18px;text-align:center;border-radius:26px;background:linear-gradient(160deg,#e8f0ff,#fff);border:1px solid var(--bd)}
 .dl h3{font-size:17px;font-weight:800;letter-spacing:.4px;margin-bottom:16px}
 .play{color:#fff;display:inline-flex;align-items:center;gap:12px;padding:10px 22px 10px 16px;border-radius:14px;background:#000;border:1.5px solid #8d8d95;text-align:left;transition:.25s}
@@ -180,7 +177,6 @@ header{position:sticky;top:0;z-index:40;background:#ffffff;border-bottom:1px sol
 .play small{display:block;color:#fff;font-size:10px;font-weight:500;letter-spacing:.6px}
 .play b{display:block;color:#fff;font-size:22px;font-weight:600;letter-spacing:-.6px;line-height:1.05}
 
-/* footer */
 footer{margin-top:30px;padding:30px 0 150px;border-top:1px solid var(--bd)}
 .flogo{width:104px;height:42px;border-radius:8px}
 .ft{margin-top:20px;font-weight:700;font-size:15px;line-height:1.6}
@@ -196,9 +192,7 @@ footer h2{margin:30px 0 12px;font-size:26px;font-weight:800;letter-spacing:-.6px
 .help p{margin-top:2px;color:var(--mu);font-size:14px}
 .copy{margin-top:26px;text-align:center;color:var(--mu);font-size:12px}
 
-/* floating support */
-.fab{position:fixed;right:16px;bottom:90px;z-index:50;display:flex;flex-direction:column;align-items:flex-end;gap:10px;padding-bottom:env(safe-area-inset-bottom)}
-.fab{pointer-events:none}
+.fab{position:fixed;right:16px;bottom:90px;z-index:50;display:flex;flex-direction:column;align-items:flex-end;gap:10px;padding-bottom:env(safe-area-inset-bottom);pointer-events:none}
 .fb{pointer-events:auto}
 .menu{display:flex;flex-direction:column;align-items:flex-end;gap:10px;opacity:0;transform:translateY(14px) scale(.9);transform-origin:bottom right;pointer-events:none;transition:.28s}
 .fab.open .menu{opacity:1;transform:none;pointer-events:auto}
@@ -208,7 +202,6 @@ footer h2{margin:30px 0 12px;font-size:26px;font-weight:800;letter-spacing:-.6px
 .fb .x,.fab.open .fb .h{display:none}
 .fab.open .fb .x{display:block}
 
-/* bottom nav */
 .nav{position:fixed;left:50%;transform:translateX(-50%) translateZ(0);-webkit-transform:translateX(-50%) translateZ(0);bottom:calc(6px + env(safe-area-inset-bottom,0px));width:min(calc(100% - 20px),520px);height:68px;z-index:45;display:grid;grid-template-columns:repeat(5,1fr);border-radius:24px;background:rgba(255,255,255,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--bd);box-shadow:0 10px 28px rgba(20,40,100,.16);backface-visibility:hidden;-webkit-backface-visibility:hidden;will-change:transform}
 .nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--mu);font-size:10.5px;font-weight:600;position:relative;transition:.2s}
 .nav a svg{font-size:23px}
@@ -220,7 +213,6 @@ footer h2{margin:30px 0 12px;font-size:26px;font-weight:800;letter-spacing:-.6px
 @media(min-width:760px){.grid{grid-template-columns:repeat(6,1fr)}.slide{aspect-ratio:2.1/1}.nav{display:none!important}.fab{right:max(16px,calc(50% - 480px));bottom:24px}footer{padding-bottom:50px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-/* bottom area v2 */
 .dl{position:relative;overflow:hidden;margin-top:24px;padding:30px 20px 32px;border-radius:28px;text-align:center;background:linear-gradient(135deg,#3b82f6,#1d4ed8 55%,#1e3a8a);border:0;box-shadow:0 22px 44px -22px rgba(29,78,216,.8)}
 .dl:before,.dl:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.08)}
 .dl:before{width:200px;height:200px;right:-60px;top:-80px}
@@ -256,7 +248,6 @@ footer .about h2{margin:0 0 6px;font-size:24px;font-weight:800;letter-spacing:-.
 .chips span{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:99px;background:#fff;border:1px solid var(--bd);font-size:13px;font-weight:600}
 .chips svg{font-size:16px;color:var(--v)}
 
-/* popup */
 .pop{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px 20px 46px;background:rgba(10,22,55,.55);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);opacity:0;pointer-events:none;transition:opacity .3s}
 .pop.show{opacity:1;pointer-events:auto}
 .pbox{position:relative;width:min(100%,460px);background:#fff;border-radius:26px;box-shadow:0 30px 80px -10px rgba(0,0,0,.55);transform:translateY(24px) scale(.94);transition:transform .4s cubic-bezier(.2,.9,.3,1.15)}
@@ -268,7 +259,6 @@ footer .about h2{margin:0 0 6px;font-size:24px;font-weight:800;letter-spacing:-.
 .pclose{position:absolute;left:50%;bottom:-27px;transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:14px 32px;border:0;border-radius:99px;background:var(--g);color:#fff;font-family:inherit;font-weight:800;font-size:16px;line-height:1;letter-spacing:.6px;cursor:pointer;box-shadow:0 0 0 5px rgba(255,255,255,.9),0 14px 26px -8px rgba(37,99,235,.9)}
 .pclose svg{font-size:16px;stroke-width:2.6}
 
-/* ===== FF LIKES product view ===== */
 #ffView{padding-bottom:130px}
 .pv-hero{margin-top:18px;display:flex;align-items:center;gap:16px;padding:14px;border-radius:24px;background:linear-gradient(135deg,#fff,#e8f0ff);border:1px solid var(--bd);box-shadow:0 10px 26px -14px rgba(37,99,235,.45);position:relative;overflow:hidden}
 .pv-hero:after{content:"";position:absolute;right:-50px;top:-60px;width:170px;height:170px;border-radius:50%;background:rgba(59,130,246,.12)}
@@ -319,7 +309,6 @@ footer .about h2{margin:0 0 6px;font-size:24px;font-weight:800;letter-spacing:-.
 .sum .tot{margin-top:6px;padding-top:10px;border-top:1px solid #cfdcfa;font-size:16px}
 .sum .tot b{color:var(--v);font-size:18px}
 
-/* ===== payment option cards (v2) ===== */
 .po-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .po{position:relative;display:flex;min-width:0;flex-direction:column;padding:0;border-radius:20px;border:1.5px solid var(--bd);background:#fff;overflow:hidden;cursor:pointer;font-family:inherit;text-align:left;color:var(--tx);box-shadow:0 8px 22px -12px rgba(20,40,90,.3);transition:.2s}
 .po:active{transform:scale(.98)}
@@ -350,7 +339,6 @@ footer .about h2{margin:0 0 6px;font-size:24px;font-weight:800;letter-spacing:-.
 .toast{position:fixed;left:50%;bottom:104px;transform:translate(-50%,20px);z-index:120;max-width:calc(100% - 40px);padding:12px 18px;border-radius:14px;background:#0f172a;color:#fff;font-size:14px;font-weight:600;text-align:center;opacity:0;pointer-events:none;transition:.3s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
-/* ===== compact sizing for FF LIKES view ===== */
 #ffView{padding-left:10px;padding-right:10px;padding-bottom:120px}
 .pv-back{margin-top:10px;padding:6px 12px;font-size:12px}
 .pv-hero{margin-top:12px;gap:12px;padding:10px;border-radius:18px}
@@ -385,7 +373,6 @@ footer .about h2{margin:0 0 6px;font-size:24px;font-weight:800;letter-spacing:-.
 .btn.login{margin-top:14px;margin-bottom:4px;height:42px}
 .toast{font-size:13px;padding:10px 14px}
 
-/* contact block inside FF LIKES view */
 .pv-contact{margin-top:22px}
 .pv-contact h2{font-size:20px;font-weight:800;letter-spacing:-.3px;margin-bottom:12px;color:#111}
 .pv-help{display:flex;align-items:center;gap:14px;padding:16px 14px;border-radius:14px;background:#fff;box-shadow:0 6px 18px -10px rgba(20,40,90,.25)}
@@ -393,11 +380,7 @@ footer .about h2{margin:0 0 6px;font-size:24px;font-weight:800;letter-spacing:-.
 .pv-help b{display:flex;align-items:center;gap:6px;font-size:16px;font-weight:700;color:#2b2b2b}
 .pv-help p{margin-top:3px;font-size:14px;color:#2b2b2b}
 .pv-help .vb{width:19px;height:19px;flex-shrink:0}
-#uidView{padding-left:10px;padding-right:10px;padding-bottom:120px}
-#wmView{padding-left:10px;padding-right:10px;padding-bottom:120px}
-#wlView{padding-left:10px;padding-right:10px;padding-bottom:120px}
-#luView{padding-left:10px;padding-right:10px;padding-bottom:120px}
-#inView{padding-left:10px;padding-right:10px;padding-bottom:120px}
+#uidView, #wmView, #wlView, #luView, #inView{padding-left:10px;padding-right:10px;padding-bottom:120px}
 .how{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:4px 2px;font-size:14px;font-weight:700;color:var(--v)}
 .how svg{font-size:18px;flex-shrink:0}
 .how .ar{font-size:17px;stroke-width:2.4}
@@ -417,118 +400,19 @@ footer .about h2{margin:0 0 6px;font-size:24px;font-weight:800;letter-spacing:-.
 .rl li{position:relative;padding-left:18px;font-size:13px;line-height:1.75;color:var(--mu)}
 .rl li:before{content:"";position:absolute;left:2px;top:10px;width:6px;height:6px;border-radius:50%;background:var(--v2)}
 
-/* tap fix: ডাবল-ট্যাপ জুম ডিটেকশনে ট্যাপ হারিয়ে যাওয়া বন্ধ */
 html,body,.pk,.po,.btn,.pay,.q,.card,.nav a,.pv-back{touch-action:manipulation}
 .pk,.po{-webkit-user-select:none;user-select:none}
 
-/* UID TOPUP: compact, centered price cards */
-#uidPkGrid{gap:8px;margin:-3px}
-#uidView .pk{min-height:64px;padding:8px 6px;gap:3px;justify-content:center;border-radius:12px;border-width:1.5px;box-shadow:0 2px 6px -4px rgba(20,40,90,.25)}
-#uidView .pk span{font-size:14.5px;font-weight:700;line-height:1.3;color:#0f1f4d;letter-spacing:-.1px}
-#uidView .pk b{font-size:13px;font-weight:700;line-height:1.3;color:var(--v)}
-#uidView .pk.on{background:linear-gradient(160deg,#eff5ff,#fff);box-shadow:0 0 0 3px rgba(37,99,235,.15),0 8px 16px -10px rgba(37,99,235,.7)}
-#uidView .pk.on:after{top:-7px;right:-5px}
-#uidView .pk span,#uidView .pk b{pointer-events:none}
-#uidView .pk:active{transform:none;background:#eff5ff}
-#uidView .pk{-webkit-appearance:none;appearance:none;font-family:inherit}
+#uidPkGrid, #wmPkGrid, #wlPkGrid, #luPkGrid, #inPkGrid{gap:8px;margin:-3px}
+#uidView .pk, #wmView .pk, #wlView .pk, #luView .pk, #inView .pk{min-height:64px;padding:8px 6px;gap:3px;justify-content:center;border-radius:12px;border-width:1.5px;box-shadow:0 2px 6px -4px rgba(20,40,90,.25)}
+#uidView .pk span, #wmView .pk span, #wlView .pk span, #luView .pk span, #inView .pk span{font-size:14.5px;font-weight:700;line-height:1.3;color:#0f1f4d;letter-spacing:-.1px}
+#uidView .pk b, #wmView .pk b, #wlView .pk b, #luView .pk b, #inView .pk b{font-size:13px;font-weight:700;line-height:1.3;color:var(--v)}
+#uidView .pk.on, #wmView .pk.on, #wlView .pk.on, #luView .pk.on, #inView .pk.on{background:linear-gradient(160deg,#eff5ff,#fff);box-shadow:0 0 0 3px rgba(37,99,235,.15),0 8px 16px -10px rgba(37,99,235,.7)}
+#uidView .pk.on:after, #wmView .pk.on:after, #wlView .pk.on:after, #luView .pk.on:after, #inView .pk.on:after{top:-7px;right:-5px}
+#uidView .pk span,#uidView .pk b, #wmView .pk span,#wmView .pk b, #wlView .pk span,#wlView .pk b, #luView .pk span,#luView .pk b, #inView .pk span,#inView .pk b{pointer-events:none}
+#uidView .pk:active, #wmView .pk:active, #wlView .pk:active, #luView .pk:active, #inView .pk:active{transform:none;background:#eff5ff}
+#uidView .pk, #wmView .pk, #wlView .pk, #luView .pk, #inView .pk{-webkit-appearance:none;appearance:none;font-family:inherit}
 
-/* WEEKLY/MONTHLY: compact, centered price cards */
-#wmPkGrid{gap:8px;margin:-3px}
-#wmView .pk{min-height:64px;padding:8px 6px;gap:3px;justify-content:center;border-radius:12px;border-width:1.5px;box-shadow:0 2px 6px -4px rgba(20,40,90,.25)}
-#wmView .pk span{font-size:14.5px;font-weight:700;line-height:1.3;color:#0f1f4d;letter-spacing:-.1px}
-#wmView .pk b{font-size:13px;font-weight:700;line-height:1.3;color:var(--v)}
-#wmView .pk.on{background:linear-gradient(160deg,#eff5ff,#fff);box-shadow:0 0 0 3px rgba(37,99,235,.15),0 8px 16px -10px rgba(37,99,235,.7)}
-#wmView .pk.on:after{top:-7px;right:-5px}
-#wmView .pk span,#wmView .pk b{pointer-events:none}
-#wmView .pk:active{transform:none;background:#eff5ff}
-#wmView .pk{-webkit-appearance:none;appearance:none;font-family:inherit}
-
-/* WEEKLY LITE: compact, centered price cards */
-#wlPkGrid{gap:8px;margin:-3px}
-#wlView .pk{min-height:64px;padding:8px 6px;gap:3px;justify-content:center;border-radius:12px;border-width:1.5px;box-shadow:0 2px 6px -4px rgba(20,40,90,.25)}
-#wlView .pk span{font-size:14.5px;font-weight:700;line-height:1.3;color:#0f1f4d;letter-spacing:-.1px}
-#wlView .pk b{font-size:13px;font-weight:700;line-height:1.3;color:var(--v)}
-#wlView .pk.on{background:linear-gradient(160deg,#eff5ff,#fff);box-shadow:0 0 0 3px rgba(37,99,235,.15),0 8px 16px -10px rgba(37,99,235,.7)}
-#wlView .pk.on:after{top:-7px;right:-5px}
-#wlView .pk span,#wlView .pk b{pointer-events:none}
-#wlView .pk:active{transform:none;background:#eff5ff}
-#wlView .pk{-webkit-appearance:none;appearance:none;font-family:inherit}
-
-/* ===== account menu panel ===== */
-.acc{position:fixed;inset:0;z-index:44;background:rgba(10,22,55,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
-.acc.show{opacity:1;visibility:visible;transition:opacity .3s,visibility 0s}
-.acc-in{position:absolute;top:0;right:0;bottom:0;width:64%;max-width:340px;display:flex;flex-direction:column;background:#fff;box-shadow:-12px 0 36px -10px rgba(10,22,55,.35);transform:translateX(100%);transition:transform .38s cubic-bezier(.2,1,.3,1);overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
-.acc.show .acc-in{transform:none}
-.acc-top{position:relative;display:flex;flex-direction:column;align-items:center;padding:calc(14px + env(safe-area-inset-top,0px)) 12px 14px;background:#fff;border-bottom:1px solid var(--bd)}
-.acc-x{display:none}
-.acc-user{display:flex;align-items:center;gap:10px;width:100%}
-.acc-av{width:52px;height:52px;border-radius:14px;padding:2.5px;background:var(--g);box-shadow:0 6px 14px -6px rgba(37,99,235,.6);flex-shrink:0}
-.acc-av div{width:100%;height:100%;border-radius:11.5px;overflow:hidden;background:#eff6ff;display:grid;place-items:center;color:var(--v);font-size:24px}
-.acc-av img{width:100%;height:100%;object-fit:cover;display:block}
-.acc-nm{min-width:0;flex:1}
-.acc-nm b{display:block;font-size:15px;font-weight:800;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.acc-nm span{display:block;margin-top:2px;font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.acc-lo{display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:8px 18px;border:0;border-radius:10px;background:var(--g);color:#fff;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:0 8px 18px -8px rgba(37,99,235,.85);transition:.2s}
-.acc-lo:active{transform:scale(.97)}
-.acc-lo svg{font-size:16px;stroke-width:2.2}
-.acc-list{background:#fff;border-bottom:1px solid var(--bd)}
-.acc-it{display:flex;align-items:center;gap:13px;padding:14px 14px;font-size:14.5px;font-weight:700;color:var(--tx);transition:.15s}
-.acc-it svg{font-size:22px;color:#1e293b;flex-shrink:0}
-.acc-it:active{background:#eff5ff}
-.acc-it.on{color:var(--v)}
-.acc-it.on svg{color:var(--v)}
-.acc-sup{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px auto 0;padding:11px 26px;border-radius:12px;background:var(--g);color:#fff;font-size:14.5px;font-weight:700;box-shadow:0 10px 20px -10px rgba(37,99,235,.8)}
-.acc-sup svg{font-size:19px}
-.acc-sup:active{transform:scale(.97)}
-/* LEVEL UP PASS: compact, centered price cards */
-#luPkGrid{gap:8px;margin:-3px}
-#luView .pk{min-height:64px;padding:8px 6px;gap:3px;justify-content:center;border-radius:12px;border-width:1.5px;box-shadow:0 2px 6px -4px rgba(20,40,90,.25)}
-#luView .pk span{font-size:14.5px;font-weight:700;line-height:1.3;color:#0f1f4d;letter-spacing:-.1px}
-#luView .pk b{font-size:13px;font-weight:700;line-height:1.3;color:var(--v)}
-#luView .pk.on{background:linear-gradient(160deg,#eff5ff,#fff);box-shadow:0 0 0 3px rgba(37,99,235,.15),0 8px 16px -10px rgba(37,99,235,.7)}
-#luView .pk.on:after{top:-7px;right:-5px}
-#luView .pk span,#luView .pk b{pointer-events:none}
-#luView .pk:active{transform:none;background:#eff5ff}
-#luView .pk{-webkit-appearance:none;appearance:none;font-family:inherit}
-
-/* ===== account menu panel ===== */
-.acc{position:fixed;inset:0;z-index:44;background:rgba(10,22,55,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
-.acc.show{opacity:1;visibility:visible;transition:opacity .3s,visibility 0s}
-.acc-in{position:absolute;top:0;right:0;bottom:0;width:64%;max-width:340px;display:flex;flex-direction:column;background:#fff;box-shadow:-12px 0 36px -10px rgba(10,22,55,.35);transform:translateX(100%);transition:transform .38s cubic-bezier(.2,1,.3,1);overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
-.acc.show .acc-in{transform:none}
-.acc-top{position:relative;display:flex;flex-direction:column;align-items:center;padding:calc(14px + env(safe-area-inset-top,0px)) 12px 14px;background:#fff;border-bottom:1px solid var(--bd)}
-.acc-x{display:none}
-.acc-user{display:flex;align-items:center;gap:10px;width:100%}
-.acc-av{width:52px;height:52px;border-radius:14px;padding:2.5px;background:var(--g);box-shadow:0 6px 14px -6px rgba(37,99,235,.6);flex-shrink:0}
-.acc-av div{width:100%;height:100%;border-radius:11.5px;overflow:hidden;background:#eff6ff;display:grid;place-items:center;color:var(--v);font-size:24px}
-.acc-av img{width:100%;height:100%;object-fit:cover;display:block}
-.acc-nm{min-width:0;flex:1}
-.acc-nm b{display:block;font-size:15px;font-weight:800;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.acc-nm span{display:block;margin-top:2px;font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.acc-lo{display:inline-flex;align-items:center;gap:7px;margin-top:12px;padding:8px 18px;border:0;border-radius:10px;background:var(--g);color:#fff;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;box-shadow:0 8px 18px -8px rgba(37,99,235,.85);transition:.2s}
-.acc-lo:active{transform:scale(.97)}
-.acc-lo svg{font-size:16px;stroke-width:2.2}
-.acc-list{background:#fff;border-bottom:1px solid var(--bd)}
-.acc-it{display:flex;align-items:center;gap:13px;padding:14px 14px;font-size:14.5px;font-weight:700;color:var(--tx);transition:.15s}
-.acc-it svg{font-size:22px;color:#1e293b;flex-shrink:0}
-.acc-it:active{background:#eff5ff}
-.acc-it.on{color:var(--v)}
-.acc-it.on svg{color:var(--v)}
-.acc-sup{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px auto 0;padding:11px 26px;border-radius:12px;background:var(--g);color:#fff;font-size:14.5px;font-weight:700;box-shadow:0 10px 20px -10px rgba(37,99,235,.8)}
-.acc-sup svg{font-size:19px}
-.acc-sup:active{transform:scale(.97)}
-/* INDONESIA SERVER: compact, centered price cards */
-#inPkGrid{gap:8px;margin:-3px}
-#inView .pk{min-height:64px;padding:8px 6px;gap:3px;justify-content:center;border-radius:12px;border-width:1.5px;box-shadow:0 2px 6px -4px rgba(20,40,90,.25)}
-#inView .pk span{font-size:14.5px;font-weight:700;line-height:1.3;color:#0f1f4d;letter-spacing:-.1px}
-#inView .pk b{font-size:13px;font-weight:700;line-height:1.3;color:var(--v)}
-#inView .pk.on{background:linear-gradient(160deg,#eff5ff,#fff);box-shadow:0 0 0 3px rgba(37,99,235,.15),0 8px 16px -10px rgba(37,99,235,.7)}
-#inView .pk.on:after{top:-7px;right:-5px}
-#inView .pk span,#inView .pk b{pointer-events:none}
-#inView .pk:active{transform:none;background:#eff5ff}
-#inView .pk{-webkit-appearance:none;appearance:none;font-family:inherit}
-
-/* ===== account menu panel ===== */
 .acc{position:fixed;inset:0;z-index:44;background:rgba(10,22,55,.5);opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s}
 .acc.show{opacity:1;visibility:visible;transition:opacity .3s,visibility 0s}
 .acc-in{position:absolute;top:0;right:0;bottom:0;width:64%;max-width:340px;display:flex;flex-direction:column;background:#fff;box-shadow:-12px 0 36px -10px rgba(10,22,55,.35);transform:translateX(100%);transition:transform .38s cubic-bezier(.2,1,.3,1);overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
@@ -626,7 +510,6 @@ html,body,.pk,.po,.btn,.pay,.q,.card,.nav a,.pv-back{touch-action:manipulation}
     <a class="card" href="#level-up-pass" data-open="level-up-pass"><div class="thumb ph"><img src="LEVEL UP PASS.jpg" alt="Level Up Pass" loading="lazy" decoding="async"></div><p>Level Up Pass</p></a>
     <a class="card" href="#indonesia-server" data-open="indonesia-server"><div class="thumb ph"><img src="INDONESIA SERVER.jpg" alt="Indonesia Server" loading="lazy" decoding="async"></div><p>Indonesia Server</p></a>
   </div>
-
 </main>
 
 <main class="wrap" id="ffView" hidden>
@@ -690,7 +573,7 @@ html,body,.pk,.po,.btn,.pay,.q,.card,.nav a,.pv-back{touch-action:manipulation}
     </a>
   </section>
 </main>
-<!-- UID TOPUP (BD) PAGE -->
+
 <main class="wrap" id="uidView" hidden>
   <button class="pv-back" type="button" id="uidBack"><svg class="i"><use href="#arr"/></svg>Back</button>
 
@@ -782,7 +665,6 @@ html,body,.pk,.po,.btn,.pay,.q,.card,.nav a,.pv-back{touch-action:manipulation}
   </section>
 </main>
 
-<!-- WEEKLY/MONTHLY PAGE -->
 <main class="wrap" id="wmView" hidden>
   <button class="pv-back" type="button" id="wmBack"><svg class="i"><use href="#arr"/></svg>Back</button>
 
@@ -867,7 +749,6 @@ html,body,.pk,.po,.btn,.pay,.q,.card,.nav a,.pv-back{touch-action:manipulation}
   </section>
 </main>
 
-<!-- WEEKLY LITE PAGE -->
 <main class="wrap" id="wlView" hidden>
   <button class="pv-back" type="button" id="wlBack"><svg class="i"><use href="#arr"/></svg>Back</button>
 
@@ -949,7 +830,6 @@ html,body,.pk,.po,.btn,.pay,.q,.card,.nav a,.pv-back{touch-action:manipulation}
   </section>
 </main>
 
-<!-- LEVEL UP PASS PAGE -->
 <main class="wrap" id="luView" hidden>
   <button class="pv-back" type="button" id="luBack"><svg class="i"><use href="#arr"/></svg>Back</button>
 
@@ -1034,7 +914,6 @@ html,body,.pk,.po,.btn,.pay,.q,.card,.nav a,.pv-back{touch-action:manipulation}
   </section>
 </main>
 
-<!-- INDONESIA SERVER PAGE -->
 <main class="wrap" id="inView" hidden>
   <button class="pv-back" type="button" id="inBack"><svg class="i"><use href="#arr"/></svg>Back</button>
 
@@ -1121,6 +1000,57 @@ html,body,.pk,.po,.btn,.pay,.q,.card,.nav a,.pv-back{touch-action:manipulation}
   </section>
 </main>
 
+<!-- DEDICATED BKASH PAYMENT PAGE VIEW -->
+<main class="wrap" id="bkashView" hidden>
+  <button class="pv-back" type="button" id="bkashBack"><svg class="i"><use href="#arr"/></svg> Back to Product</button>
+
+  <section class="pv-hero" style="background: linear-gradient(135deg, #fff0f6, #fce4ec); border-color: #f8bbd0;">
+    <div class="pv-img" style="border-color: #e2136e;"><div class="thumb ph" style="background:#e2136e; display:grid; place-items:center; color:#fff; font-size:28px; font-weight:900;">bKash</div></div>
+    <div class="pv-info">
+      <h1 style="color: #e2136e;">bKash Instant Pay</h1>
+      <span class="pv-pill" style="background:#fce4ec; color:#e2136e; border-color:#f8bbd0;"><svg viewBox="0 0 24 24"><use href="#bolt"/></svg>অটো পেমেন্ট ভেরিফিকেশন</span>
+    </div>
+  </section>
+
+  <section class="pv-box" style="border-color: #e2136e;">
+    <div class="pv-head" style="background: #fff0f6;"><span class="n" style="background: #e2136e;">1</span><h2 style="color: #e2136e;">বিকাশ পেমেন্ট বিবরণী</h2></div>
+    <div class="pv-body">
+      <div style="background: #fff0f6; border: 1.5px solid #e2136e; border-radius: 16px; padding: 16px; margin-bottom: 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+          <span style="font-size: 14px; font-weight: 700; color: #e2136e;">bKash Personal Number:</span>
+          <b class="bkashNumVal" style="font-size: 18px; color: #111;">01931711863</b>
+          <button type="button" onclick="copyBkashNumPage()" style="padding: 6px 14px; border-radius: 10px; background: #e2136e; color: #fff; border: 0; font-weight: 700; font-size: 13px; cursor: pointer;">Copy</button>
+        </div>
+        <p style="font-size: 13px; color: #555; line-height: 1.5;">
+          উপরের পার্সোনাল নম্বরে বিকাশ অ্যাপ থেকে <b><span id="bkashPayNeed">0</span> ৳</b> Send Money করুন। টাকা পাঠানোর পর ট্রানজেকশন আইডি (TrxID) নিচে দিন।
+        </p>
+      </div>
+
+      <div class="sum" style="margin-bottom: 16px; background: #fdf2f8; border-color: #fbcfe8;">
+        <div><span>প্যাকেজ নাম:</span><b id="bkashPkgName">-</b></div>
+        <div><span>গেম আইডি (UID):</span><b id="bkashGameUid">-</b></div>
+        <div class="tot"><span>মোট দেয় টাকা:</span><b id="bkashTotalAmt" style="color:#e2136e;">0 ৳</b></div>
+      </div>
+
+      <label class="lbl" style="font-size: 14px;">প্রেরকের বিকাশ নম্বর</label>
+      <input class="inp" id="bkashSenderNum" type="text" inputmode="numeric" placeholder="যে নম্বর থেকে টাকা পাঠিয়েছেন" style="margin-bottom: 12px;">
+
+      <label class="lbl" style="font-size: 14px;">বিকাশ ট্রানজেকশন আইডি (TrxID)</label>
+      <input class="inp" id="bkashTrxId" type="text" placeholder="যেমন: 8N7A6D5W" style="text-transform: uppercase; margin-bottom: 14px;">
+
+      <button class="btn" id="bkashVerifyBtn" type="button" style="background: #e2136e; height: 48px; font-size: 16px;">পেমেন্ট ভেরিফাই করুন</button>
+    </div>
+  </section>
+
+  <section class="pv-contact" style="margin-top:20px;">
+    <h2>Need Help?</h2>
+    <a class="pv-help" href="#" data-link="telegram-channel">
+      <span class="ti"><svg class="f"><use href="#tg"/></svg></span>
+      <span><b>Telegram HelpLine <svg class="vb" viewBox="0 0 24 24"><path fill="#2979ff" d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.67-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.34 2.19c-1.39-.46-2.9-.2-3.91.81s-1.27 2.52-.81 3.91C2.63 9.33 1.75 10.57 1.75 12s.88 2.67 2.19 3.34c-.46 1.39-.2 2.9.81 3.91s2.52 1.27 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.67-.88 3.34-2.19c1.39.46 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34z"/><polygon fill="#fff" points="9.65 16.4 5.8 12.55 7.2 11.15 9.65 13.6 16.8 6.45 18.2 7.85"/></svg></b><p>সকাল ৮টা থেকে রাত ১২টা</p></span>
+    </a>
+  </section>
+</main>
+
 <div class="toast" id="toast"></div>
 
 <footer id="siteFooter">
@@ -1171,7 +1101,6 @@ html,body,.pk,.po,.btn,.pay,.q,.card,.nav a,.pv-back{touch-action:manipulation}
   <a href="#"><svg class="i"><use href="#user"/></svg>My Account</a>
 </nav>
 
-<!-- ACCOUNT MENU -->
 <aside class="acc" id="accPanel" aria-hidden="true">
   <div class="acc-in">
     <div class="acc-top">
@@ -1204,34 +1133,37 @@ html,body,.pk,.po,.btn,.pay,.q,.card,.nav a,.pv-back{touch-action:manipulation}
   </div>
 </div>
 
+<!-- ========================================== -->
+<!-- INTEGRATED MASTER JAVASCRIPT CONTROLLER    -->
+<!-- ========================================== -->
 <script>
-// ==========================================
-// 1. DYNAMIC ACCOUNT LINKS SYNCHRONIZATION
-// ==========================================
+// 1. GLOBAL USER & LOGIN CONFIGURATION
+window.USER = {
+  loggedIn: false,          // ইউজার লগইন থাকলে true করুন
+  name: '',                 // ইউজারের নাম
+  email: '',                // ইমেইল বা ফোন
+  avatar: ''                // ছবি
+};
+window.LOGIN_URL = 'login.php';
+window.LOGOUT_URL = 'logout.php';
+window.isLoggedIn = window.USER.loggedIn;
+
+// 2. DYNAMIC ACCOUNT LINKS SYNCHRONIZATION
 function syncAccountLinks() {
   var siteName = (typeof website_name !== 'undefined' ? website_name : '').trim();
   if (!siteName) siteName = 'Nickname';
 
-  // 1. Dynamic website name in document title and branding
   document.title = siteName;
-  document.querySelectorAll('[data-site-name]').forEach(function(el) {
-    el.textContent = siteName;
-  });
-  document.querySelectorAll('[data-site-logo]').forEach(function(el) {
-    el.alt = siteName;
-  });
+  document.querySelectorAll('[data-site-name]').forEach(function(el) { el.textContent = siteName; });
+  document.querySelectorAll('[data-site-logo]').forEach(function(el) { el.alt = siteName; });
 
   var tgCh = (typeof telegram_channel_link !== 'undefined' ? telegram_channel_link : (window.ACCOUNT_CONFIG && window.ACCOUNT_CONFIG.telegramChannel) || '').trim();
   var tgGrp = (typeof telegram_group_link !== 'undefined' ? telegram_group_link : (window.ACCOUNT_CONFIG && window.ACCOUNT_CONFIG.telegramGroup) || '').trim();
   var ytCh = (typeof youtube_channel_link !== 'undefined' ? youtube_channel_link : (window.ACCOUNT_CONFIG && window.ACCOUNT_CONFIG.youtubeChannel) || '').trim();
 
   function sanitize(url, placeholder) {
-    if (!url || url === placeholder || url === '#' || (url.indexOf(' ') !== -1 && !url.startsWith('http'))) {
-      return '';
-    }
-    if (!/^https?:\/\//i.test(url)) {
-      return 'https://' + url;
-    }
+    if (!url || url === placeholder || url === '#' || (url.indexOf(' ') !== -1 && !url.startsWith('http'))) return '';
+    if (!/^https?:\/\//i.test(url)) return 'https://' + url;
     return url;
   }
 
@@ -1256,7 +1188,6 @@ function syncAccountLinks() {
   bindLinks('[data-link="telegram-group"]', validTgGrp);
   bindLinks('[data-link="youtube-channel"]', validYtCh);
 
-  // নোটিফিকেশন পপআপের লেখা (account.js এর notification_text)
   var note = (typeof notification_text !== 'undefined' ? notification_text : (window.notification_text || '')).toString();
   note = note.replace(/\\n/g, '\n').trim();
   var popEl = document.getElementById('popText');
@@ -1272,7 +1203,6 @@ function syncAccountLinks() {
 syncAccountLinks();
 document.addEventListener('DOMContentLoaded', syncAccountLinks);
 
-// Instant Live Fetch with strict no-cache headers to bypass browser and CDN cache
 function fetchFreshAccountConfig() {
   if (window.location.protocol.indexOf('http') !== 0) return;
   var buster = Date.now() + '_' + Math.floor(Math.random() * 1000000);
@@ -1280,19 +1210,9 @@ function fetchFreshAccountConfig() {
   fetch(url, {
     method: 'GET',
     cache: 'no-store',
-    headers: {
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      'Pragma': 'no-cache',
-      'Expires': '0'
-    }
-  }).then(function(res){
-    if (!res.ok) return '';
-    return res.text();
-  }).then(function(txt){
+    headers: { 'Cache-Control': 'no-cache, no-store, must-revalidate', 'Pragma': 'no-cache', 'Expires': '0' }
+  }).then(function(res){ return res.ok ? res.text() : ''; }).then(function(txt){
     if (!txt) return;
-
-    // 1. Try direct evaluation
-    var parsed = false;
     try {
       var runner = new Function(txt + '\n;return {' +
         'website_name: (typeof website_name !== "undefined" ? website_name : null),' +
@@ -1308,52 +1228,16 @@ function fetchFreshAccountConfig() {
         if (cfg.telegram_group_link !== null) window.telegram_group_link = cfg.telegram_group_link;
         if (cfg.youtube_channel_link !== null) window.youtube_channel_link = cfg.youtube_channel_link;
         if (cfg.notification_text !== null) window.notification_text = cfg.notification_text;
-        parsed = true;
       }
     } catch(e) {}
-
-    // 2. Fallback regex extraction (supports double quotes, single quotes, and backticks without needing semicolons)
-    if (!parsed) {
-      var extractProp = function(prop) {
-        var re = new RegExp(prop + '\\s*=\\s*([`"\'])([\\s\\S]*?)\\1', 'i');
-        var m = txt.match(re);
-        return m ? m[2].trim() : null;
-      };
-      var name = extractProp('website_name');
-      var tgCh = extractProp('telegram_channel_link');
-      var tgGrp = extractProp('telegram_group_link');
-      var ytCh = extractProp('youtube_channel_link');
-      var note = extractProp('notification_text');
-
-      if (name !== null) window.website_name = name;
-      if (tgCh !== null) window.telegram_channel_link = tgCh;
-      if (tgGrp !== null) window.telegram_group_link = tgGrp;
-      if (ytCh !== null) window.youtube_channel_link = ytCh;
-      if (note !== null) window.notification_text = note;
-    }
-
     if (typeof syncAccountLinks === 'function') syncAccountLinks();
-  }).catch(function(err){
-    console.warn('Account config live fetch notice:', err);
-  });
+  }).catch(function(err){});
 }
 
 fetchFreshAccountConfig();
-document.addEventListener('DOMContentLoaded', function(){
-  if (typeof syncAccountLinks === 'function') syncAccountLinks();
-  fetchFreshAccountConfig();
-});
-window.addEventListener('load', function(){
-  if (typeof syncAccountLinks === 'function') syncAccountLinks();
-});
-
-// Render-এ ডিপ্লয় হওয়ার সাথে সাথে যাতে ভিজিটরদের পেজ রিফ্রেশ না করলেও আপডেট হয়ে যায় (প্রতি ১৫ সেকেন্ডে চেক করবে)
 setInterval(fetchFreshAccountConfig, 15000);
 
-// ==========================================
-// ==========================================
-// 2. ULTRA-SMOOTH 4-SECOND HERO SLIDER
-// ==========================================
+// 3. ULTRA-SMOOTH HERO SLIDER
 (function initSmoothSlider(){
   var track = document.getElementById('track');
   var hero = document.getElementById('heroSlider');
@@ -1364,73 +1248,37 @@ setInterval(fetchFreshAccountConfig, 15000);
   var realCount = originalSlides.length;
   if (realCount < 2) return;
 
-  // Clone first slide to end and last slide to start
   var firstClone = originalSlides[0].cloneNode(true);
   var lastClone = originalSlides[realCount - 1].cloneNode(true);
   track.appendChild(firstClone);
   track.insertBefore(lastClone, track.firstChild);
 
-  // DOM: [Clone3, Slide1, Slide2, Slide3, Clone1]
-  var currentIndex = 1;
-  var isAnimating = false;
-  var autoTimer = null;
-  var wrapTimer = null;
-  var autoDelay = 4000; // Exactly 4 seconds
-  var animDuration = 520; // 0.52s silky smooth transition
-  var animEase = 'cubic-bezier(0.25, 1, 0.5, 1)'; // Smooth natural deceleration (zero lag)
-
+  var currentIndex = 1, isAnimating = false, autoTimer = null, wrapTimer = null, autoDelay = 4000, animDuration = 520, animEase = 'cubic-bezier(0.25, 1, 0.5, 1)';
   var slideWidth = hero.offsetWidth || hero.getBoundingClientRect().width || 1;
-  function updateSlideWidth() {
-    slideWidth = hero.offsetWidth || hero.getBoundingClientRect().width || 1;
-  }
+
+  function updateSlideWidth() { slideWidth = hero.offsetWidth || hero.getBoundingClientRect().width || 1; }
 
   function setPosition(index, animated) {
-    if (animated) {
-      track.style.transition = 'transform ' + (animDuration / 1000) + 's ' + animEase;
-    } else {
-      track.style.transition = 'none';
-    }
+    track.style.transition = animated ? 'transform ' + (animDuration / 1000) + 's ' + animEase : 'none';
     track.style.transform = 'translate3d(-' + (index * slideWidth) + 'px, 0, 0)';
-    if (!animated) {
-      void track.offsetWidth; // Force synchronous reflow so browser commits silently with zero hitch
-    }
+    if (!animated) void track.offsetWidth;
     currentIndex = index;
     updateDots();
   }
 
   function updateDots() {
-    var activeDot = 0;
-    if (currentIndex === 0) {
-      activeDot = realCount - 1;
-    } else if (currentIndex === realCount + 1) {
-      activeDot = 0;
-    } else {
-      activeDot = currentIndex - 1;
-    }
-    dots.forEach(function(dot, idx){
-      dot.classList.toggle('on', idx === activeDot);
-    });
+    var activeDot = (currentIndex === 0) ? realCount - 1 : (currentIndex === realCount + 1 ? 0 : currentIndex - 1);
+    dots.forEach(function(dot, idx){ dot.classList.toggle('on', idx === activeDot); });
   }
 
   function handleWrap() {
-    if (wrapTimer) {
-      clearTimeout(wrapTimer);
-      wrapTimer = null;
-    }
-    if (currentIndex === realCount + 1) {
-      // Slid forward into Clone1 -> jump silently to real Slide1 (index 1)
-      setPosition(1, false);
-    } else if (currentIndex === 0) {
-      // Slid backward into Clone3 -> jump silently to real Slide3 (index realCount)
-      setPosition(realCount, false);
-    }
+    if (wrapTimer) { clearTimeout(wrapTimer); wrapTimer = null; }
+    if (currentIndex === realCount + 1) setPosition(1, false);
+    else if (currentIndex === 0) setPosition(realCount, false);
     isAnimating = false;
   }
 
-  track.addEventListener('transitionend', function(e){
-    if (e.target !== track || e.propertyName !== 'transform') return;
-    handleWrap();
-  });
+  track.addEventListener('transitionend', function(e){ if (e.target === track && e.propertyName === 'transform') handleWrap(); });
 
   function startAnimation(newIndex) {
     if (isAnimating) return;
@@ -1438,97 +1286,36 @@ setInterval(fetchFreshAccountConfig, 15000);
     updateSlideWidth();
     setPosition(newIndex, true);
     if (wrapTimer) clearTimeout(wrapTimer);
-    wrapTimer = setTimeout(function(){
-      if (isAnimating) handleWrap();
-    }, animDuration + 40);
+    wrapTimer = setTimeout(function(){ if (isAnimating) handleWrap(); }, animDuration + 40);
   }
 
-  function nextSlide() {
-    startAnimation(currentIndex + 1);
-  }
+  function nextSlide() { startAnimation(currentIndex + 1); }
+  function prevSlide() { startAnimation(currentIndex - 1); }
 
-  function prevSlide() {
-    startAnimation(currentIndex - 1);
-  }
-
-  function goToSlide(slideIdx) {
-    if (isAnimating) return;
-    startAnimation(slideIdx + 1);
-    resetAutoPlay();
-  }
-
-  // Click on dots
   dots.forEach(function(dot, k){
-    dot.addEventListener('click', function(e){
-      e.stopPropagation();
-      goToSlide(k);
-    });
+    dot.addEventListener('click', function(e){ e.stopPropagation(); startAnimation(k + 1); resetAutoPlay(); });
   });
 
-  // Autoplay (every 4 seconds)
-  function startAutoPlay() {
-    stopAutoPlay();
-    autoTimer = setInterval(function(){
-      if (!isDragging) {
-        nextSlide();
-      }
-    }, autoDelay);
-  }
+  function startAutoPlay() { stopAutoPlay(); autoTimer = setInterval(function(){ if (!isDragging) nextSlide(); }, autoDelay); }
+  function stopAutoPlay() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
+  function resetAutoPlay() { stopAutoPlay(); startAutoPlay(); }
 
-  function stopAutoPlay() {
-    if (autoTimer) {
-      clearInterval(autoTimer);
-      autoTimer = null;
-    }
-  }
+  window.addEventListener('resize', function(){ updateSlideWidth(); setPosition(currentIndex, false); });
 
-  function resetAutoPlay() {
-    stopAutoPlay();
-    startAutoPlay();
-  }
-
-  // Responsive resize adjustment
-  window.addEventListener('resize', function(){
-    updateSlideWidth();
-    setPosition(currentIndex, false);
-  });
-
-  // Tab visibility: pause on background, resume on active
-  document.addEventListener('visibilitychange', function(){
-    if (document.hidden) {
-      stopAutoPlay();
-    } else {
-      resetAutoPlay();
-    }
-  });
-
-  // Touch and Mouse Swipe / Drag
-  var startX = 0, currentX = 0, isDragging = false, dragDelta = 0;
-  var startTime = 0;
+  var startX = 0, currentX = 0, isDragging = false, dragDelta = 0, startTime = 0, dragRafId = null;
 
   function onDragStart(clientX) {
     if (isAnimating) return;
-    isDragging = true;
-    startX = clientX;
-    currentX = clientX;
-    dragDelta = 0;
-    startTime = Date.now();
-    updateSlideWidth();
-    track.style.transition = 'none';
-    stopAutoPlay();
+    isDragging = true; startX = clientX; currentX = clientX; dragDelta = 0; startTime = Date.now();
+    updateSlideWidth(); track.style.transition = 'none'; stopAutoPlay();
   }
-
-  var dragRafId = null;
 
   function onDragMove(clientX) {
     if (!isDragging) return;
-    currentX = clientX;
-    dragDelta = currentX - startX;
+    currentX = clientX; dragDelta = currentX - startX;
     if (!dragRafId) {
       dragRafId = requestAnimationFrame(function(){
-        if (isDragging) {
-          track.style.transform = 'translate3d(' + (-currentIndex * slideWidth + dragDelta) + 'px, 0, 0)';
-        }
+        if (isDragging) track.style.transform = 'translate3d(' + (-currentIndex * slideWidth + dragDelta) + 'px, 0, 0)';
         dragRafId = null;
       });
     }
@@ -1537,86 +1324,33 @@ setInterval(fetchFreshAccountConfig, 15000);
   function onDragEnd() {
     if (!isDragging) return;
     isDragging = false;
-    if (dragRafId) {
-      cancelAnimationFrame(dragRafId);
-      dragRafId = null;
-    }
+    if (dragRafId) { cancelAnimationFrame(dragRafId); dragRafId = null; }
     var duration = Date.now() - startTime;
     var velocity = Math.abs(dragDelta) / (duration || 1);
     var isFlick = velocity > 0.3 && Math.abs(dragDelta) > 15;
     var threshold = Math.min(slideWidth * 0.15, 50);
 
-    if (dragDelta < -threshold || (isFlick && dragDelta < 0)) {
-      // Swiped left -> Next banner
-      nextSlide();
-    } else if (dragDelta > threshold || (isFlick && dragDelta > 0)) {
-      // Swiped right -> Previous banner
-      prevSlide();
-    } else {
-      // Snap back smoothly
-      isAnimating = true;
-      setPosition(currentIndex, true);
-      setTimeout(function(){ isAnimating = false; }, animDuration + 40);
-    }
+    if (dragDelta < -threshold || (isFlick && dragDelta < 0)) nextSlide();
+    else if (dragDelta > threshold || (isFlick && dragDelta > 0)) prevSlide();
+    else { isAnimating = true; setPosition(currentIndex, true); setTimeout(function(){ isAnimating = false; }, animDuration + 40); }
     resetAutoPlay();
   }
 
-  // Mouse drag support for PC
-  hero.addEventListener('mousedown', function(e){
-    if (e.target.closest('#dots')) return;
-    e.preventDefault();
-    onDragStart(e.clientX);
-  });
+  hero.addEventListener('mousedown', function(e){ if (!e.target.closest('#dots')) { e.preventDefault(); onDragStart(e.clientX); } });
+  window.addEventListener('mousemove', function(e){ if (isDragging) { e.preventDefault(); onDragMove(e.clientX); } });
+  window.addEventListener('mouseup', function(e){ if (isDragging) onDragEnd(); });
 
-  window.addEventListener('mousemove', function(e){
-    if (isDragging) {
-      e.preventDefault();
-      onDragMove(e.clientX);
-    }
-  });
+  hero.addEventListener('touchstart', function(e){ if (!e.target.closest('#dots') && e.touches.length === 1) onDragStart(e.touches[0].clientX); }, { passive: true });
+  hero.addEventListener('touchmove', function(e){ if (isDragging && e.touches.length === 1) onDragMove(e.touches[0].clientX); }, { passive: true });
+  hero.addEventListener('touchend', function(e){ if (isDragging) onDragEnd(); });
 
-  window.addEventListener('mouseup', function(e){
-    if (isDragging) onDragEnd();
-  });
-
-  // Touch swipe support for Mobile / Tablets
-  hero.addEventListener('touchstart', function(e){
-    if (e.target.closest('#dots')) return;
-    if (e.touches && e.touches.length === 1) {
-      onDragStart(e.touches[0].clientX);
-    }
-  }, { passive: true });
-
-  hero.addEventListener('touchmove', function(e){
-    if (isDragging && e.touches && e.touches.length === 1) {
-      onDragMove(e.touches[0].clientX);
-    }
-  }, { passive: true });
-
-  hero.addEventListener('touchend', function(e){
-    if (isDragging) onDragEnd();
-  });
-
-  hero.addEventListener('touchcancel', function(e){
-    if (isDragging) onDragEnd();
-  });
-
-  // Initial render & launch autoplay
-  updateSlideWidth();
-  setPosition(1, false);
-  startAutoPlay();
+  updateSlideWidth(); setPosition(1, false); startAutoPlay();
 })();
 
-// ==========================================
-// 3. POPUP & FLOATING SUPPORT MENU
-// ==========================================
+// 4. POPUP & FLOATING SUPPORT MENU
 (function(){
   var pop = document.getElementById('pop');
-  function openP(){
-    if (typeof window.syncAccountLinks === 'function') window.syncAccountLinks();
-    pop.classList.add('show');
-    document.body.style.overflow='hidden';
-  }
+  function openP(){ if (typeof window.syncAccountLinks === 'function') window.syncAccountLinks(); pop.classList.add('show'); document.body.style.overflow='hidden'; }
   function closeP(){ pop.classList.remove('show'); document.body.style.overflow=''; }
   document.getElementById('pclose').onclick = closeP;
   pop.addEventListener('click', function(e){ if (e.target === pop) closeP(); });
@@ -1629,577 +1363,250 @@ setInterval(fetchFreshAccountConfig, 15000);
   };
 })();
 
-// ==========================================
-// 3b. ACCOUNT MENU (প্রোফাইল আইকনে ক্লিক করলে খোলে)
-// ==========================================
+// 5. ACCOUNT MENU CONTROLLER
 (function(){
-  // লগইন সিস্টেম যুক্ত করলে এখানে ইউজারের তথ্য বসান
-  var USER = {
-    loggedIn: false,          // লগইন থাকলে true
-    name: '',                 // যেমন: 'MD EACIN 69'
-    email: '',                // যেমন: 'eacin69x@gmail.com'
-    avatar: ''                // প্রোফাইল ছবির লিংক (ফাঁকা থাকলে ডিফল্ট আইকন)
-  };
-  var LOGIN_URL = '#';
-  var LOGOUT_URL = '#';
-
   var panel = document.getElementById('accPanel');
   var navLinks = [].slice.call(document.querySelectorAll('nav.nav a'));
   var navHome = navLinks[0], navAcc = navLinks[4];
 
-  // ইউজার তথ্য বসানো
   (function render(){
-    var n = USER.name ? USER.name.trim() : '';
-    document.getElementById('accName').textContent = USER.loggedIn && n ? 'Hi, ' + n : 'Hi, Guest';
-    document.getElementById('accMail').textContent = USER.loggedIn && USER.email ? USER.email : 'লগইন করে অর্ডার করুন';
-    if (USER.avatar) {
-      var box = document.getElementById('accAv');
-      box.innerHTML = '';
-      var im = document.createElement('img'); im.src = USER.avatar; im.alt = 'Profile';
-      box.appendChild(im);
+    var n = window.USER.name ? window.USER.name.trim() : '';
+    document.getElementById('accName').textContent = window.USER.loggedIn && n ? 'Hi, ' + n : 'Hi, Guest';
+    document.getElementById('accMail').textContent = window.USER.loggedIn && window.USER.email ? window.USER.email : 'লগইন করে অর্ডার করুন';
+    if (window.USER.avatar) {
+      var box = document.getElementById('accAv'); box.innerHTML = '';
+      var im = document.createElement('img'); im.src = window.USER.avatar; im.alt = 'Profile'; box.appendChild(im);
     }
     var lo = document.getElementById('accLo');
-    lo.querySelector('span').textContent = USER.loggedIn ? 'Logout' : 'Login';
-    lo.querySelector('use').setAttribute('href', USER.loggedIn ? '#a-power' : '#a-in');
-    lo.onclick = function(){
-      var u = USER.loggedIn ? LOGOUT_URL : LOGIN_URL;
-      if (u && u !== '#') location.href = u;
-    };
+    lo.querySelector('span').textContent = window.USER.loggedIn ? 'Logout' : 'Login';
+    lo.querySelector('use').setAttribute('href', window.USER.loggedIn ? '#a-power' : '#a-in');
+    lo.onclick = function(){ location.href = window.USER.loggedIn ? window.LOGOUT_URL : window.LOGIN_URL; };
   })();
 
-  function setNav(open){
-    if (!navHome || !navAcc) return;
-    navHome.classList.toggle('on', !open);
-    navAcc.classList.toggle('on', open);
-  }
-  function openAcc(){
-    panel.classList.add('show');
-    panel.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    document.getElementById('fab').classList.remove('open');
-    setNav(true);
-  }
-  function closeAcc(){
-    panel.classList.remove('show');
-    panel.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    setNav(false);
-  }
+  function setNav(open){ if (navHome && navAcc) { navHome.classList.toggle('on', !open); navAcc.classList.toggle('on', open); } }
+  function openAcc(){ panel.classList.add('show'); panel.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; document.getElementById('fab').classList.remove('open'); setNav(true); }
+  function closeAcc(){ panel.classList.remove('show'); panel.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; setNav(false); }
 
-  document.getElementById('avBtn').addEventListener('click', function(e){
-    e.preventDefault();
-    panel.classList.contains('show') ? closeAcc() : openAcc();
-  });
+  document.getElementById('avBtn').addEventListener('click', function(e){ e.preventDefault(); panel.classList.contains('show') ? closeAcc() : openAcc(); });
   document.getElementById('accClose').onclick = closeAcc;
   panel.addEventListener('click', function(e){ if (e.target === panel) closeAcc(); });
-  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeAcc(); });
 
-  // নিচের নেভিগেশন: Home চাপলে বন্ধ, My Account চাপলে খোলে
   if (navHome) navHome.addEventListener('click', function(e){ e.preventDefault(); closeAcc(); location.hash = ''; });
   if (navAcc) navAcc.addEventListener('click', function(e){ e.preventDefault(); openAcc(); });
 
-  // মেনু আইটেমে ক্লিক: এখানে নিজের পেজের লিংক বসান
-  var PAGES = { account:'#', orders:'#', codes:'#', transaction:'#', addmoney:'#' };
+  var PAGES = { account:'account.php', orders:'orders.php', codes:'codes.php', transaction:'transaction.php', addmoney:'addmoney.php' };
   document.querySelectorAll('.acc-it[data-go]').forEach(function(a){
     a.addEventListener('click', function(e){
       var go = a.getAttribute('data-go');
       if (go === 'account') { e.preventDefault(); return; }
-      var u = PAGES[go];
-      if (u && u !== '#') { e.preventDefault(); location.href = u; }
-      else e.preventDefault();
+      var u = PAGES[go]; if (u) { e.preventDefault(); location.href = u; } else e.preventDefault();
     });
   });
 
-  // ফুটারের "Add Money" নেভ বাটন
-  if (navLinks[2]) navLinks[2].addEventListener('click', function(e){
-    e.preventDefault();
-    if (PAGES.addmoney && PAGES.addmoney !== '#') location.href = PAGES.addmoney;
-  });
+  if (navLinks[2]) navLinks[2].addEventListener('click', function(e){ e.preventDefault(); if (PAGES.addmoney) location.href = PAGES.addmoney; });
 })();
 
-// ==========================================
-// 4. FF LIKES PRODUCT VIEW
-// ==========================================
+// 6. ALL PRODUCT VIEWS (GENERIC INITIALIZER)
 (function(){
-  // লগইন সিস্টেম যুক্ত করলে এটা true করে দিন
-  var isLoggedIn=false;
-  var LOGIN_URL='#';
+  var home = document.getElementById('homeView'), foot = document.getElementById('siteFooter');
+  var toastEl = document.getElementById('toast'), tt;
+  function toast(m){ toastEl.textContent = m; toastEl.classList.add('show'); clearTimeout(tt); tt = setTimeout(function(){ toastEl.classList.remove('show'); }, 2400); }
+  window.toast = toast;
 
-  var home=document.getElementById('homeView'), ff=document.getElementById('ffView'), foot=document.getElementById('siteFooter');
-  var sel={name:'',price:0,pay:'Wallet Pay'};
-  var toastEl=document.getElementById('toast'), tt;
-  function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toastEl.classList.remove('show')},2400)}
+  var views = [
+    { hash: '#ff-likes', view: document.getElementById('ffView'), back: 'ffBack', grid: 'pkGrid', buy: 'buyBtn', warn: 'loginWarn', need: 'needAmt', chk: 'chkBtn', inp: 'uid', pname: 'pname' },
+    { hash: '#uid-topup', view: document.getElementById('uidView'), back: 'uidBack', grid: 'uidPkGrid', buy: 'uidBuy', warn: 'uidLoginWarn', need: 'uidNeed', chk: 'uidChk', inp: 'uidInp', pname: 'uidPname' },
+    { hash: '#weekly-monthly', view: document.getElementById('wmView'), back: 'wmBack', grid: 'wmPkGrid', buy: 'wmBuy', warn: 'wmLoginWarn', need: 'wmNeed', chk: 'wmChk', inp: 'wmInp', pname: 'wmPname' },
+    { hash: '#weekly-lite', view: document.getElementById('wlView'), back: 'wlBack', grid: 'wlPkGrid', buy: 'wlBuy', warn: 'wlLoginWarn', need: 'wlNeed', chk: 'wlChk', inp: 'wlInp', pname: 'wlPname' },
+    { hash: '#level-up-pass', view: document.getElementById('luView'), back: 'luBack', grid: 'luPkGrid', buy: 'luBuy', warn: 'luLoginWarn', need: 'luNeed', chk: 'luChk', inp: 'luInp', pname: 'luPname' },
+    { hash: '#indonesia-server', view: document.getElementById('inView'), back: 'inBack', grid: 'inPkGrid', buy: 'inBuy', warn: 'inLoginWarn', need: 'inNeed', chk: 'inChk', inp: 'inInp', pname: 'inPname' }
+  ];
+
   function route(){
-    var onFF=location.hash==='#ff-likes', onUid=location.hash==='#uid-topup', onWm=location.hash==='#weekly-monthly', onWl=location.hash==='#weekly-lite', onLu=location.hash==='#level-up-pass', onIn=location.hash==='#indonesia-server';
-    home.hidden=onFF||onUid||onWm||onWl||onLu||onIn; foot.hidden=onFF||onUid||onWm||onWl||onLu||onIn; ff.hidden=!onFF;
-    var uv=document.getElementById('uidView'); if(uv) uv.hidden=!onUid;
-    var wv=document.getElementById('wmView'); if(wv) wv.hidden=!onWm;
-    var lv=document.getElementById('wlView'); if(lv) lv.hidden=!onWl;
-    var uv2=document.getElementById('luView'); if(uv2) uv2.hidden=!onLu;
-    var uv3=document.getElementById('inView'); if(uv3) uv3.hidden=!onIn;
+    var cur = location.hash;
+    var matched = false;
+    views.forEach(function(v){
+      var isCur = (cur === v.hash);
+      if(v.view) v.view.hidden = !isCur;
+      if(isCur) matched = true;
+    });
+    var isBkash = (cur === '#bkash-pay');
+    home.hidden = matched || isBkash;
+    foot.hidden = matched || isBkash;
     window.scrollTo(0,0);
   }
-  document.querySelectorAll('[data-open="ff-likes"]').forEach(function(a){
-    a.addEventListener('click',function(e){e.preventDefault();location.hash='ff-likes';});
-  });
-  document.getElementById('ffBack').onclick=function(){ if(history.length>1&&location.hash==='#ff-likes'){history.back();}else{location.hash='';route();} };
-  window.addEventListener('hashchange',route); route();
 
-  var buy=document.getElementById('buyBtn'), warn=document.getElementById('loginWarn');
-  function upd(){
-    document.getElementById('needAmt').textContent=sel.price;
-    if(isLoggedIn){warn.style.display='none';buy.textContent='অর্ডার করুন';buy.href='#';}
-    else{warn.style.display='flex';buy.textContent='Login';buy.href=LOGIN_URL;}
-  }
-  document.querySelectorAll('#pkGrid .pk').forEach(function(b){
-    b.onclick=function(){
-      document.querySelectorAll('#pkGrid .pk').forEach(function(x){x.classList.remove('on')});
-      b.classList.add('on'); sel.name=b.dataset.name; sel.price=+b.dataset.price; upd();
-    };
-  });
-  document.querySelectorAll('#ffView .po').forEach(function(b){
-    b.onclick=function(){
-      document.querySelectorAll('#ffView .po').forEach(function(x){x.classList.remove('on')});
-      b.classList.add('on'); sel.pay=b.dataset.pay;
-    };
-  });
-  document.getElementById('uid').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'');document.getElementById('pname').className='pname';});
+  window.addEventListener('hashchange', route);
+  route();
 
-  var pn=document.getElementById('pname');
-  document.getElementById('chkBtn').onclick=function(){
-    var uid=document.getElementById('uid').value.trim();
-    if(uid.length<6){pn.className='pname err';pn.innerHTML='<svg class="i"><use href="#warn"/></svg>সঠিক প্লেয়ার আইডি দিন';return;}
-    // TODO: এখানে আপনার ব্যাকএন্ড/API কল বসান (প্লেয়ার নাম আনার জন্য)
-    pn.className='pname ok';
-    pn.innerHTML='<svg class="i"><use href="#chk"/></svg>আইডি: '+uid;
-  };
-  buy.addEventListener('click',function(e){
-    if(!isLoggedIn){ if(LOGIN_URL==='#')e.preventDefault(); return; }
-    e.preventDefault();
-    var uid=document.getElementById('uid').value.trim();
-    if(!sel.name){toast('আগে একটি রিচার্জ প্যাকেজ সিলেক্ট করুন');return;}
-    if(uid.length<6){toast('সঠিক প্লেয়ার আইডি দিন');document.getElementById('uid').focus();return;}
-    // TODO: অর্ডার সাবমিট লজিক এখানে বসান
-    toast('অর্ডার সাবমিট হচ্ছে... ('+sel.name+', '+sel.price+' টাকা, '+sel.pay+')');
-  });
-  upd();
-})();
+  views.forEach(function(v){
+    if(!v.view) return;
+    var sel = { name: '', price: 0, pay: 'Wallet Pay' };
+    var buyBtn = document.getElementById(v.buy);
+    var warnEl = document.getElementById(v.warn);
+    var needEl = document.getElementById(v.need);
+    var inpEl = document.getElementById(v.inp);
+    var pnameEl = document.getElementById(v.pname);
 
-// ==========================================
-// 5. UID TOPUP (BD) PRODUCT VIEW
-// ==========================================
-(function(){
-  // লগইন সিস্টেম যুক্ত করলে এটা true করে দিন
-  var isLoggedIn=false;
-  var LOGIN_URL='#';
+    function upd(){
+      if(needEl) needEl.textContent = sel.price;
+      if(window.isLoggedIn){
+        if(warnEl) warnEl.style.display = 'none';
+        if(buyBtn) { buyBtn.textContent = 'Buy Now'; buyBtn.href = '#'; }
+      } else {
+        if(warnEl) warnEl.style.display = 'flex';
+        if(buyBtn) { buyBtn.textContent = 'Login'; buyBtn.href = window.LOGIN_URL; }
+      }
+    }
 
-  var BALANCE=0;          // ইউজারের ওয়ালেট ব্যালেন্স (ব্যাকএন্ড থেকে বসান)
-  var HOWTO_URL='#';      // "কিভাবে অর্ডার করবেন?" ভিডিও/গাইডের লিংক
+    var backBtn = document.getElementById(v.back);
+    if(backBtn) backBtn.onclick = function(){ if(history.length > 1 && location.hash === v.hash) history.back(); else location.hash = ''; };
 
-  var sel={name:'',price:0,pay:'Wallet Pay'};
-  var toastEl=document.getElementById('toast'), tt;
-  function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toastEl.classList.remove('show')},2400)}
+    var gridEl = document.getElementById(v.grid);
+    if(gridEl){
+      gridEl.addEventListener('click', function(e){
+        var b = e.target.closest('.pk');
+        if(!b) return;
+        gridEl.querySelectorAll('.pk').forEach(function(x){ x.classList.remove('on'); });
+        b.classList.add('on');
+        sel.name = b.dataset.name;
+        sel.price = +b.dataset.price;
+        upd();
+      });
+    }
 
-  document.querySelectorAll('[data-open="uid-topup"]').forEach(function(a){
-    a.addEventListener('click',function(e){e.preventDefault();location.hash='uid-topup';});
-  });
-  document.getElementById('uidBack').onclick=function(){ if(history.length>1&&location.hash==='#uid-topup'){history.back();}else{location.hash='';} };
+    var poGrid = v.view.querySelector('.po-grid');
+    if(poGrid){
+      poGrid.querySelectorAll('.po').forEach(function(b){
+        b.onclick = function(){
+          poGrid.querySelectorAll('.po').forEach(function(x){ x.classList.remove('on'); });
+          b.classList.add('on');
+          sel.pay = b.dataset.pay;
+        };
+      });
+    }
 
-  var buy=document.getElementById('uidBuy'), warn=document.getElementById('uidLoginWarn');
-  function upd(){
-    document.getElementById('uidNeed').textContent=sel.price;
-    document.getElementById('uidBal').textContent=BALANCE.toFixed(2);
-    if(isLoggedIn){warn.style.display='none';balRow.style.display='flex';buy.textContent='Buy Now';buy.href='#';}
-    else{warn.style.display='flex';balRow.style.display='none';buy.textContent='Login';buy.href=LOGIN_URL;}
-  }
-  var balRow=document.getElementById('uidBalRow'), rf=document.getElementById('uidRf');
-  rf.onclick=function(){
-    rf.classList.remove('spin'); void rf.offsetWidth; rf.classList.add('spin');
-    // TODO: এখানে ব্যাকএন্ড থেকে ব্যালেন্স আনুন, তারপর BALANCE সেট করে upd() কল করুন
+    if(inpEl){
+      inpEl.addEventListener('input', function(){ this.value = this.value.replace(/\D/g,''); if(pnameEl) pnameEl.className = 'pname'; });
+    }
+
+    var chkBtn = document.getElementById(v.chk);
+    if(chkBtn && inpEl && pnameEl){
+      chkBtn.onclick = function(){
+        var uid = inpEl.value.trim();
+        if(uid.length < 6){ pnameEl.className = 'pname err'; pnameEl.innerHTML = '<svg class="i"><use href="#warn"/></svg>সঠিক প্লেয়ার আইডি দিন'; return; }
+        pnameEl.className = 'pname ok'; pnameEl.innerHTML = '<svg class="i"><use href="#chk"/></svg>আইডি: ' + uid;
+      };
+    }
+
+    if(buyBtn){
+      buyBtn.addEventListener('click', function(e){
+        if(!window.isLoggedIn){ if(window.LOGIN_URL === '#') e.preventDefault(); return; }
+        e.preventDefault();
+        var uid = inpEl ? inpEl.value.trim() : '';
+        if(!sel.name){ toast('আগে একটি রিচার্জ প্যাকেজ সিলেক্ট করুন'); return; }
+        if(uid.length < 6){ toast('সঠিক প্লেয়ার আইডি দিন'); if(inpEl) inpEl.focus(); return; }
+        toast('অর্ডার সাবমিট হচ্ছে... (' + sel.name + ', ' + sel.price + ' টাকা, ' + sel.pay + ')');
+      });
+    }
     upd();
-  };
-  var how=document.getElementById('uidHow');
-  how.onclick=function(e){ if(HOWTO_URL==='#') e.preventDefault(); };
-  how.href=HOWTO_URL;
-  var pks=document.querySelectorAll('#uidPkGrid .pk');
-  var pkGrid=document.getElementById('uidPkGrid');
-  function pickPk(e){
-    var b=e.target.closest ? e.target.closest('.pk') : null;
-    if(!b || !pkGrid.contains(b)) return;
-    pks.forEach(function(x){x.classList.remove('on')});
-    b.classList.add('on'); sel.name=b.dataset.name; sel.price=+b.dataset.price; upd();
-  }
-  pkGrid.addEventListener('click',pickPk);
-  // ব্যাকআপ: ব্রাউজার কখনো click ইভেন্ট হারিয়ে ফেললেও সরাসরি ট্যাপ ধরে সিলেক্ট করবে
-  (function(){
-    var sx=0, sy=0, down=false;
-    pkGrid.addEventListener('pointerdown',function(e){ down=true; sx=e.clientX; sy=e.clientY; });
-    pkGrid.addEventListener('pointercancel',function(){ down=false; });
-    pkGrid.addEventListener('pointerup',function(e){
-      if(!down) return; down=false;
-      if(Math.abs(e.clientX-sx)>10 || Math.abs(e.clientY-sy)>10) return; // স্ক্রল হলে ধরবে না
-      pickPk(e);
-    });
-  })();
-  var pos=document.querySelectorAll('#uidPo .po');
-  pos.forEach(function(b){
-    b.onclick=function(){
-      pos.forEach(function(x){x.classList.remove('on')});
-      b.classList.add('on'); sel.pay=b.dataset.pay;
-    };
   });
-  var inp=document.getElementById('uidInp'), pn=document.getElementById('uidPname');
-  inp.addEventListener('input',function(){this.value=this.value.replace(/\D/g,'');pn.className='pname';});
-  document.getElementById('uidChk').onclick=function(){
-    var uid=inp.value.trim();
-    if(uid.length<6){pn.className='pname err';pn.innerHTML='<svg class="i"><use href="#warn"/></svg>সঠিক প্লেয়ার আইডি দিন';return;}
-    // TODO: এখানে আপনার ব্যাকএন্ড/API কল বসান (প্লেয়ার নাম আনার জন্য)
-    pn.className='pname ok';
-    pn.innerHTML='<svg class="i"><use href="#chk"/></svg>আইডি: '+uid;
-  };
-  buy.addEventListener('click',function(e){
-    if(!isLoggedIn){ if(LOGIN_URL==='#')e.preventDefault(); return; }
-    e.preventDefault();
-    var uid=inp.value.trim();
-    if(!sel.name){toast('আগে একটি রিচার্জ প্যাকেজ সিলেক্ট করুন');return;}
-    if(uid.length<6){toast('সঠিক প্লেয়ার আইডি দিন');inp.focus();return;}
-    // TODO: অর্ডার সাবমিট লজিক এখানে বসান
-    toast('অর্ডার সাবমিট হচ্ছে... ('+sel.name+', '+sel.price+' টাকা, '+sel.pay+')');
-  });
-  upd();
 })();
-// ==========================================
-// 6. WEEKLY/MONTHLY PRODUCT VIEW
-// ==========================================
-(function(){
-  // লগইন সিস্টেম যুক্ত করলে এটা true করে দিন
-  var isLoggedIn=false;
-  var LOGIN_URL='#';
 
-  var BALANCE=0;          // ইউজারের ওয়ালেট ব্যালেন্স (ব্যাকএন্ড থেকে বসান)
-  var HOWTO_URL='#';      // "কিভাবে অর্ডার করবেন?" ভিডিও/গাইডের লিংক
-
-  var sel={name:'',price:0,pay:'Wallet Pay'};
-  var toastEl=document.getElementById('toast'), tt;
-  function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toastEl.classList.remove('show')},2400)}
-
-  document.querySelectorAll('[data-open="weekly-monthly"]').forEach(function(a){
-    a.addEventListener('click',function(e){e.preventDefault();location.hash='weekly-monthly';});
+// 7. BKASH PAYMENT PAGE CONTROLLER
+function copyBkashNumPage() {
+  navigator.clipboard.writeText('01931711863').then(function() {
+    if (typeof toast === 'function') toast('বিকাশ নম্বর (01931711863) কপি করা হয়েছে!');
   });
-  document.getElementById('wmBack').onclick=function(){ if(history.length>1&&location.hash==='#weekly-monthly'){history.back();}else{location.hash='';} };
+}
 
-  var buy=document.getElementById('wmBuy'), warn=document.getElementById('wmLoginWarn');
-  function upd(){
-    document.getElementById('wmNeed').textContent=sel.price;
-    document.getElementById('wmBal').textContent=BALANCE.toFixed(2);
-    if(isLoggedIn){warn.style.display='none';balRow.style.display='flex';buy.textContent='Buy Now';buy.href='#';}
-    else{warn.style.display='flex';balRow.style.display='none';buy.textContent='Login';buy.href=LOGIN_URL;}
-  }
-  var balRow=document.getElementById('wmBalRow'), rf=document.getElementById('wmRf');
-  rf.onclick=function(){
-    rf.classList.remove('spin'); void rf.offsetWidth; rf.classList.add('spin');
-    // TODO: এখানে ব্যাকএন্ড থেকে ব্যালেন্স আনুন, তারপর BALANCE সেট করে upd() কল করুন
-    upd();
-  };
-  var how=document.getElementById('wmHow');
-  how.onclick=function(e){ if(HOWTO_URL==='#') e.preventDefault(); };
-  how.href=HOWTO_URL;
-  var pks=document.querySelectorAll('#wmPkGrid .pk');
-  var pkGrid=document.getElementById('wmPkGrid');
-  function pickPk(e){
-    var b=e.target.closest ? e.target.closest('.pk') : null;
-    if(!b || !pkGrid.contains(b)) return;
-    pks.forEach(function(x){x.classList.remove('on')});
-    b.classList.add('on'); sel.name=b.dataset.name; sel.price=+b.dataset.price; upd();
-  }
-  pkGrid.addEventListener('click',pickPk);
-  // ব্যাকআপ: ব্রাউজার কখনো click ইভেন্ট হারিয়ে ফেললেও সরাসরি ট্যাপ ধরে সিলেক্ট করবে
-  (function(){
-    var sx=0, sy=0, down=false;
-    pkGrid.addEventListener('pointerdown',function(e){ down=true; sx=e.clientX; sy=e.clientY; });
-    pkGrid.addEventListener('pointercancel',function(){ down=false; });
-    pkGrid.addEventListener('pointerup',function(e){
-      if(!down) return; down=false;
-      if(Math.abs(e.clientX-sx)>10 || Math.abs(e.clientY-sy)>10) return; // স্ক্রল হলে ধরবে না
-      pickPk(e);
+document.addEventListener('DOMContentLoaded', function() {
+  var prevViewHash = '';
+
+  document.querySelectorAll('main.wrap').forEach(function(view) {
+    if (view.id === 'bkashView') return;
+
+    view.querySelectorAll('.po').forEach(function(poBtn) {
+      poBtn.addEventListener('click', function() {
+        if (this.getAttribute('data-pay') === 'Instant Pay') {
+          prevViewHash = location.hash || '#home';
+
+          var pkgName = '';
+          var selPk = view.querySelector('.pk.on');
+          if (selPk) pkgName = selPk.getAttribute('data-name') || selPk.textContent.trim();
+
+          var needAmtEl = view.querySelector('#needAmt, #uidNeed, #wmNeed, #wlNeed, #luNeed, #inNeed');
+          var needAmt = needAmtEl ? needAmtEl.textContent.trim() : '0';
+
+          var uidInp = view.querySelector('input.inp');
+          var gameUid = uidInp ? uidInp.value.trim() : 'N/A';
+
+          document.getElementById('bkashPkgName').textContent = pkgName || 'Selected Item';
+          document.getElementById('bkashGameUid').textContent = gameUid || 'Not Provided';
+          if(document.getElementById('bkashPayNeed')) document.getElementById('bkashPayNeed').textContent = needAmt;
+          document.getElementById('bkashTotalAmt').textContent = needAmt + ' ৳';
+
+          location.hash = 'bkash-pay';
+        }
+      });
     });
-  })();
-  var pos=document.querySelectorAll('#wmPo .po');
-  pos.forEach(function(b){
-    b.onclick=function(){
-      pos.forEach(function(x){x.classList.remove('on')});
-      b.classList.add('on'); sel.pay=b.dataset.pay;
+  });
+
+  function routeBkashPage() {
+    var isBkashPage = (location.hash === '#bkash-pay');
+    var bv = document.getElementById('bkashView');
+    if (bv) {
+      bv.hidden = !isBkashPage;
+      if (isBkashPage) {
+        document.querySelectorAll('main.wrap').forEach(function(m){ if(m.id !== 'bkashView') m.hidden = true; });
+        document.getElementById('siteFooter').hidden = true;
+        window.scrollTo(0, 0);
+      }
+    }
+  }
+
+  window.addEventListener('hashchange', routeBkashPage);
+  routeBkashPage();
+
+  var bkashBackBtn = document.getElementById('bkashBack');
+  if (bkashBackBtn) {
+    bkashBackBtn.onclick = function() { location.hash = prevViewHash || ''; };
+  }
+
+  var verifyBtn = document.getElementById('bkashVerifyBtn');
+  if (verifyBtn) {
+    verifyBtn.onclick = function() {
+      var senderNum = document.getElementById('bkashSenderNum').value.trim();
+      var trxId = document.getElementById('bkashTrxId').value.trim().toUpperCase();
+      var needAmt = document.getElementById('bkashPayNeed').textContent.trim();
+
+      if (senderNum.length < 11) { toast('সঠিক ১১ ডিজিটের বিকাশ নম্বর দিন'); return; }
+      if (trxId.length < 8) { toast('সঠিক ট্রানজেকশন আইডি (TrxID) দিন'); return; }
+
+      verifyBtn.disabled = true;
+      verifyBtn.textContent = 'যাচাই করা হচ্ছে...';
+      toast('পেমেন্ট অটো-যাচাই করা হচ্ছে...');
+
+      fetch('https://bkash-nghk.onrender.com/api/verify-bkash', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sender_number: senderNum, trx_id: trxId, amount: parseFloat(needAmt) })
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        verifyBtn.disabled = false;
+        verifyBtn.textContent = 'পেমেন্ট ভেরিফাই করুন';
+        if (data.success) toast('✅ ' + data.message);
+        else toast('❌ ' + (data.message || 'ভুল TrxID অথবা পেমেন্ট পাওয়া যায়নি!'));
+      })
+      .catch(function() {
+        verifyBtn.disabled = false;
+        verifyBtn.textContent = 'পেমেন্ট ভেরিফাই করুন';
+        toast('সার্ভারের সাথে যোগাযোগ করা সম্ভব হয়নি!');
+      });
     };
-  });
-  var inp=document.getElementById('wmInp'), pn=document.getElementById('wmPname');
-  inp.addEventListener('input',function(){this.value=this.value.replace(/\D/g,'');pn.className='pname';});
-  document.getElementById('wmChk').onclick=function(){
-    var uid=inp.value.trim();
-    if(uid.length<6){pn.className='pname err';pn.innerHTML='<svg class="i"><use href="#warn"/></svg>সঠিক প্লেয়ার আইডি দিন';return;}
-    // TODO: এখানে আপনার ব্যাকএন্ড/API কল বসান (প্লেয়ার নাম আনার জন্য)
-    pn.className='pname ok';
-    pn.innerHTML='<svg class="i"><use href="#chk"/></svg>আইডি: '+uid;
-  };
-  buy.addEventListener('click',function(e){
-    if(!isLoggedIn){ if(LOGIN_URL==='#')e.preventDefault(); return; }
-    e.preventDefault();
-    var uid=inp.value.trim();
-    if(!sel.name){toast('আগে একটি রিচার্জ প্যাকেজ সিলেক্ট করুন');return;}
-    if(uid.length<6){toast('সঠিক প্লেয়ার আইডি দিন');inp.focus();return;}
-    // TODO: অর্ডার সাবমিট লজিক এখানে বসান
-    toast('অর্ডার সাবমিট হচ্ছে... ('+sel.name+', '+sel.price+' টাকা, '+sel.pay+')');
-  });
-  upd();
-})();
-// ==========================================
-// 7. WEEKLY LITE PRODUCT VIEW
-// ==========================================
-(function(){
-  // লগইন সিস্টেম যুক্ত করলে এটা true করে দিন
-  var isLoggedIn=false;
-  var LOGIN_URL='#';
-
-  var BALANCE=0;          // ইউজারের ওয়ালেট ব্যালেন্স (ব্যাকএন্ড থেকে বসান)
-  var HOWTO_URL='#';      // "কিভাবে অর্ডার করবেন?" ভিডিও/গাইডের লিংক
-
-  var sel={name:'',price:0,pay:'Wallet Pay'};
-  var toastEl=document.getElementById('toast'), tt;
-  function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toastEl.classList.remove('show')},2400)}
-
-  document.querySelectorAll('[data-open="weekly-lite"]').forEach(function(a){
-    a.addEventListener('click',function(e){e.preventDefault();location.hash='weekly-lite';});
-  });
-  document.getElementById('wlBack').onclick=function(){ if(history.length>1&&location.hash==='#weekly-lite'){history.back();}else{location.hash='';} };
-
-  var buy=document.getElementById('wlBuy'), warn=document.getElementById('wlLoginWarn');
-  function upd(){
-    document.getElementById('wlNeed').textContent=sel.price;
-    document.getElementById('wlBal').textContent=BALANCE.toFixed(2);
-    if(isLoggedIn){warn.style.display='none';balRow.style.display='flex';buy.textContent='Buy Now';buy.href='#';}
-    else{warn.style.display='flex';balRow.style.display='none';buy.textContent='Login';buy.href=LOGIN_URL;}
   }
-  var balRow=document.getElementById('wlBalRow'), rf=document.getElementById('wlRf');
-  rf.onclick=function(){
-    rf.classList.remove('spin'); void rf.offsetWidth; rf.classList.add('spin');
-    // TODO: এখানে ব্যাকএন্ড থেকে ব্যালেন্স আনুন, তারপর BALANCE সেট করে upd() কল করুন
-    upd();
-  };
-  var how=document.getElementById('wlHow');
-  how.onclick=function(e){ if(HOWTO_URL==='#') e.preventDefault(); };
-  how.href=HOWTO_URL;
-  var pks=document.querySelectorAll('#wlPkGrid .pk');
-  var pkGrid=document.getElementById('wlPkGrid');
-  function pickPk(e){
-    var b=e.target.closest ? e.target.closest('.pk') : null;
-    if(!b || !pkGrid.contains(b)) return;
-    pks.forEach(function(x){x.classList.remove('on')});
-    b.classList.add('on'); sel.name=b.dataset.name; sel.price=+b.dataset.price; upd();
-  }
-  pkGrid.addEventListener('click',pickPk);
-  // ব্যাকআপ: ব্রাউজার কখনো click ইভেন্ট হারিয়ে ফেললেও সরাসরি ট্যাপ ধরে সিলেক্ট করবে
-  (function(){
-    var sx=0, sy=0, down=false;
-    pkGrid.addEventListener('pointerdown',function(e){ down=true; sx=e.clientX; sy=e.clientY; });
-    pkGrid.addEventListener('pointercancel',function(){ down=false; });
-    pkGrid.addEventListener('pointerup',function(e){
-      if(!down) return; down=false;
-      if(Math.abs(e.clientX-sx)>10 || Math.abs(e.clientY-sy)>10) return; // স্ক্রল হলে ধরবে না
-      pickPk(e);
-    });
-  })();
-  var pos=document.querySelectorAll('#wlPo .po');
-  pos.forEach(function(b){
-    b.onclick=function(){
-      pos.forEach(function(x){x.classList.remove('on')});
-      b.classList.add('on'); sel.pay=b.dataset.pay;
-    };
-  });
-  var inp=document.getElementById('wlInp'), pn=document.getElementById('wlPname');
-  inp.addEventListener('input',function(){this.value=this.value.replace(/\D/g,'');pn.className='pname';});
-  document.getElementById('wlChk').onclick=function(){
-    var uid=inp.value.trim();
-    if(uid.length<6){pn.className='pname err';pn.innerHTML='<svg class="i"><use href="#warn"/></svg>সঠিক প্লেয়ার আইডি দিন';return;}
-    // TODO: এখানে আপনার ব্যাকএন্ড/API কল বসান (প্লেয়ার নাম আনার জন্য)
-    pn.className='pname ok';
-    pn.innerHTML='<svg class="i"><use href="#chk"/></svg>আইডি: '+uid;
-  };
-  buy.addEventListener('click',function(e){
-    if(!isLoggedIn){ if(LOGIN_URL==='#')e.preventDefault(); return; }
-    e.preventDefault();
-    var uid=inp.value.trim();
-    if(!sel.name){toast('আগে একটি রিচার্জ প্যাকেজ সিলেক্ট করুন');return;}
-    if(uid.length<6){toast('সঠিক প্লেয়ার আইডি দিন');inp.focus();return;}
-    // TODO: অর্ডার সাবমিট লজিক এখানে বসান
-    toast('অর্ডার সাবমিট হচ্ছে... ('+sel.name+', '+sel.price+' টাকা, '+sel.pay+')');
-  });
-  upd();
-})();
-// ==========================================
-// 8. LEVEL UP PASS PRODUCT VIEW
-// ==========================================
-(function(){
-  // লগইন সিস্টেম যুক্ত করলে এটা true করে দিন
-  var isLoggedIn=false;
-  var LOGIN_URL='#';
-
-  var BALANCE=0;          // ইউজারের ওয়ালেট ব্যালেন্স (ব্যাকএন্ড থেকে বসান)
-  var HOWTO_URL='#';      // "কিভাবে অর্ডার করবেন?" ভিডিও/গাইডের লিংক
-
-  var sel={name:'',price:0,pay:'Wallet Pay'};
-  var toastEl=document.getElementById('toast'), tt;
-  function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toastEl.classList.remove('show')},2400)}
-
-  document.querySelectorAll('[data-open="level-up-pass"]').forEach(function(a){
-    a.addEventListener('click',function(e){e.preventDefault();location.hash='level-up-pass';});
-  });
-  document.getElementById('luBack').onclick=function(){ if(history.length>1&&location.hash==='#level-up-pass'){history.back();}else{location.hash='';} };
-
-  var buy=document.getElementById('luBuy'), warn=document.getElementById('luLoginWarn');
-  function upd(){
-    document.getElementById('luNeed').textContent=sel.price;
-    document.getElementById('luBal').textContent=BALANCE.toFixed(2);
-    if(isLoggedIn){warn.style.display='none';balRow.style.display='flex';buy.textContent='Buy Now';buy.href='#';}
-    else{warn.style.display='flex';balRow.style.display='none';buy.textContent='Login';buy.href=LOGIN_URL;}
-  }
-  var balRow=document.getElementById('luBalRow'), rf=document.getElementById('luRf');
-  rf.onclick=function(){
-    rf.classList.remove('spin'); void rf.offsetWidth; rf.classList.add('spin');
-    // TODO: এখানে ব্যাকএন্ড থেকে ব্যালেন্স আনুন, তারপর BALANCE সেট করে upd() কল করুন
-    upd();
-  };
-  var how=document.getElementById('luHow');
-  how.onclick=function(e){ if(HOWTO_URL==='#') e.preventDefault(); };
-  how.href=HOWTO_URL;
-  var pks=document.querySelectorAll('#luPkGrid .pk');
-  var pkGrid=document.getElementById('luPkGrid');
-  function pickPk(e){
-    var b=e.target.closest ? e.target.closest('.pk') : null;
-    if(!b || !pkGrid.contains(b)) return;
-    pks.forEach(function(x){x.classList.remove('on')});
-    b.classList.add('on'); sel.name=b.dataset.name; sel.price=+b.dataset.price; upd();
-  }
-  pkGrid.addEventListener('click',pickPk);
-  // ব্যাকআপ: ব্রাউজার কখনো click ইভেন্ট হারিয়ে ফেললেও সরাসরি ট্যাপ ধরে সিলেক্ট করবে
-  (function(){
-    var sx=0, sy=0, down=false;
-    pkGrid.addEventListener('pointerdown',function(e){ down=true; sx=e.clientX; sy=e.clientY; });
-    pkGrid.addEventListener('pointercancel',function(){ down=false; });
-    pkGrid.addEventListener('pointerup',function(e){
-      if(!down) return; down=false;
-      if(Math.abs(e.clientX-sx)>10 || Math.abs(e.clientY-sy)>10) return; // স্ক্রল হলে ধরবে না
-      pickPk(e);
-    });
-  })();
-  var pos=document.querySelectorAll('#luPo .po');
-  pos.forEach(function(b){
-    b.onclick=function(){
-      pos.forEach(function(x){x.classList.remove('on')});
-      b.classList.add('on'); sel.pay=b.dataset.pay;
-    };
-  });
-  var inp=document.getElementById('luInp'), pn=document.getElementById('luPname');
-  inp.addEventListener('input',function(){this.value=this.value.replace(/\D/g,'');pn.className='pname';});
-  document.getElementById('luChk').onclick=function(){
-    var uid=inp.value.trim();
-    if(uid.length<6){pn.className='pname err';pn.innerHTML='<svg class="i"><use href="#warn"/></svg>সঠিক প্লেয়ার আইডি দিন';return;}
-    // TODO: এখানে আপনার ব্যাকএন্ড/API কল বসান (প্লেয়ার নাম আনার জন্য)
-    pn.className='pname ok';
-    pn.innerHTML='<svg class="i"><use href="#chk"/></svg>আইডি: '+uid;
-  };
-  buy.addEventListener('click',function(e){
-    if(!isLoggedIn){ if(LOGIN_URL==='#')e.preventDefault(); return; }
-    e.preventDefault();
-    var uid=inp.value.trim();
-    if(!sel.name){toast('আগে একটি রিচার্জ প্যাকেজ সিলেক্ট করুন');return;}
-    if(uid.length<6){toast('সঠিক প্লেয়ার আইডি দিন');inp.focus();return;}
-    // TODO: অর্ডার সাবমিট লজিক এখানে বসান
-    toast('অর্ডার সাবমিট হচ্ছে... ('+sel.name+', '+sel.price+' টাকা, '+sel.pay+')');
-  });
-  upd();
-})();
-// ==========================================
-// 9. INDONESIA SERVER PRODUCT VIEW
-// ==========================================
-(function(){
-  // লগইন সিস্টেম যুক্ত করলে এটা true করে দিন
-  var isLoggedIn=false;
-  var LOGIN_URL='#';
-
-  var BALANCE=0;          // ইউজারের ওয়ালেট ব্যালেন্স (ব্যাকএন্ড থেকে বসান)
-  var HOWTO_URL='#';      // "কিভাবে অর্ডার করবেন?" ভিডিও/গাইডের লিংক
-
-  var sel={name:'',price:0,pay:'Wallet Pay'};
-  var toastEl=document.getElementById('toast'), tt;
-  function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toastEl.classList.remove('show')},2400)}
-
-  document.querySelectorAll('[data-open="indonesia-server"]').forEach(function(a){
-    a.addEventListener('click',function(e){e.preventDefault();location.hash='indonesia-server';});
-  });
-  document.getElementById('inBack').onclick=function(){ if(history.length>1&&location.hash==='#indonesia-server'){history.back();}else{location.hash='';} };
-
-  var buy=document.getElementById('inBuy'), warn=document.getElementById('inLoginWarn');
-  function upd(){
-    document.getElementById('inNeed').textContent=sel.price;
-    document.getElementById('inBal').textContent=BALANCE.toFixed(2);
-    if(isLoggedIn){warn.style.display='none';balRow.style.display='flex';buy.textContent='Buy Now';buy.href='#';}
-    else{warn.style.display='flex';balRow.style.display='none';buy.textContent='Login';buy.href=LOGIN_URL;}
-  }
-  var balRow=document.getElementById('inBalRow'), rf=document.getElementById('inRf');
-  rf.onclick=function(){
-    rf.classList.remove('spin'); void rf.offsetWidth; rf.classList.add('spin');
-    // TODO: এখানে ব্যাকএন্ড থেকে ব্যালেন্স আনুন, তারপর BALANCE সেট করে upd() কল করুন
-    upd();
-  };
-  var how=document.getElementById('inHow');
-  how.onclick=function(e){ if(HOWTO_URL==='#') e.preventDefault(); };
-  how.href=HOWTO_URL;
-  var pks=document.querySelectorAll('#inPkGrid .pk');
-  var pkGrid=document.getElementById('inPkGrid');
-  function pickPk(e){
-    var b=e.target.closest ? e.target.closest('.pk') : null;
-    if(!b || !pkGrid.contains(b)) return;
-    pks.forEach(function(x){x.classList.remove('on')});
-    b.classList.add('on'); sel.name=b.dataset.name; sel.price=+b.dataset.price; upd();
-  }
-  pkGrid.addEventListener('click',pickPk);
-  // ব্যাকআপ: ব্রাউজার কখনো click ইভেন্ট হারিয়ে ফেললেও সরাসরি ট্যাপ ধরে সিলেক্ট করবে
-  (function(){
-    var sx=0, sy=0, down=false;
-    pkGrid.addEventListener('pointerdown',function(e){ down=true; sx=e.clientX; sy=e.clientY; });
-    pkGrid.addEventListener('pointercancel',function(){ down=false; });
-    pkGrid.addEventListener('pointerup',function(e){
-      if(!down) return; down=false;
-      if(Math.abs(e.clientX-sx)>10 || Math.abs(e.clientY-sy)>10) return; // স্ক্রল হলে ধরবে না
-      pickPk(e);
-    });
-  })();
-  var pos=document.querySelectorAll('#inPo .po');
-  pos.forEach(function(b){
-    b.onclick=function(){
-      pos.forEach(function(x){x.classList.remove('on')});
-      b.classList.add('on'); sel.pay=b.dataset.pay;
-    };
-  });
-  var inp=document.getElementById('inInp'), pn=document.getElementById('inPname');
-  inp.addEventListener('input',function(){this.value=this.value.replace(/\D/g,'');pn.className='pname';});
-  document.getElementById('inChk').onclick=function(){
-    var uid=inp.value.trim();
-    if(uid.length<6){pn.className='pname err';pn.innerHTML='<svg class="i"><use href="#warn"/></svg>সঠিক প্লেয়ার আইডি দিন';return;}
-    // TODO: এখানে আপনার ব্যাকএন্ড/API কল বসান (প্লেয়ার নাম আনার জন্য)
-    pn.className='pname ok';
-    pn.innerHTML='<svg class="i"><use href="#chk"/></svg>আইডি: '+uid;
-  };
-  buy.addEventListener('click',function(e){
-    if(!isLoggedIn){ if(LOGIN_URL==='#')e.preventDefault(); return; }
-    e.preventDefault();
-    var uid=inp.value.trim();
-    if(!sel.name){toast('আগে একটি রিচার্জ প্যাকেজ সিলেক্ট করুন');return;}
-    if(uid.length<6){toast('সঠিক প্লেয়ার আইডি দিন');inp.focus();return;}
-    // TODO: অর্ডার সাবমিট লজিক এখানে বসান
-    toast('অর্ডার সাবমিট হচ্ছে... ('+sel.name+', '+sel.price+' টাকা, '+sel.pay+')');
-  });
-  upd();
-})();
+});
 </script>
 </body>
 </html>
